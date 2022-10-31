@@ -1,8 +1,8 @@
-ENTRY(_kstart)
+ENTRY(_kmain)
 
 SECTIONS
 {
-    . = 0xffffffff80000000;
+    . = 0xffffffff80200000;
 
     .handover : ALIGN(4K)
     {

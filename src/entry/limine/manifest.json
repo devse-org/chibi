@@ -1,0 +1,11 @@
+{
+    "id": "limine",
+    "provide": [
+        "chibi-entry"
+    ],
+    "requires": {
+        "loader": [
+            "limine"
+        ]
+    }
+}

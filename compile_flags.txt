@@ -1,9 +1,7 @@
--xc++
 -O3
--std=gnu++2b
--fno-exceptions
--fno-rtti
+-std=c18
 -Wall
 -Wextra
 -Werror
--Isrc/
+-Isrc/kernel
+-Isrc/libs

@@ -1,0 +1,10 @@
+{
+    "id": "chibi-x86_64",
+    "type": "lib",
+    "provide": [
+        "chibi-arch"
+    ],
+    "requires": {
+        "arch": "x86_64"
+    }
+}

@@ -1,15 +1,14 @@
 {
-    "id": "chibi-i686",
+    "id": "chibi-x86_64",
     "type": "target",
     "props": {
         "toolchain": "clang",
-        "arch": "i686",
+        "arch": "x86_64",
         "sys": "chibi",
         "abi": "sysv",
         "encoding": "utf8",
         "freestanding": true,
-        "host": false,
-        "chibi-entry": "multiboot"
+        "host": false
     },
     "tools": {
         "cc": {
@@ -19,7 +18,7 @@
             ],
             "args": [
                 "-target",
-                "i386-none-elf",
+                "x86_64-none-elf",
                 "-ffreestanding",
                 "-fno-stack-protector"
             ]
@@ -31,7 +30,7 @@
             ],
             "args": [
                 "-target",
-                "i386-none-elf",
+                "x86_64-none-elf",
                 "-ffreestanding",
                 "-fno-stack-protector"
             ]
@@ -43,7 +42,7 @@
             ],
             "args": [
                 "-m",
-                "elf_i386",
+                "elf_x86_64",
                 "-Tmeta/targets/link.ld",
                 "-z",
                 "max-page-size=0x1000"
@@ -62,7 +61,7 @@
             "cmd": "nasm",
             "args": [
                 "-f",
-                "elf32"
+                "elf64"
             ]
         }
     }
