@@ -1,5 +1,6 @@
 {
     "id": "limine",
+    "type": "lib",
     "provide": [
         "chibi-entry"
     ],
@@ -7,5 +8,8 @@
         "loader": [
             "limine"
         ]
-    }
+    },
+    "deps": [
+        "handover"
+    ]
 }
