@@ -1,0 +1,6 @@
+[submodule "src/handover"]
+	path = src/handover
+	url = https://github.com/devse-org/handover
+[submodule "src/libheap"]
+	path = src/libheap
+	url = https://github.com/devse-org/libheap

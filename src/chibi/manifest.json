@@ -1,0 +1,10 @@
+{
+    "id": "chibi",
+    "type": "exe",
+    "deps": [
+        "chibi-core",
+        "chibi-arch",
+        "chibi-entry",
+        "chibi-base"
+    ]
+}

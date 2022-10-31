@@ -1,0 +1,10 @@
+{
+    "id": "chibi-i686",
+    "type": "lib",
+    "provide": [
+        "chibi-arch"
+    ],
+    "requires": {
+        "arch": "i686"
+    }
+}

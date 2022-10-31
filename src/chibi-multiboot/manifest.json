@@ -1,0 +1,7 @@
+{
+    "id": "chibi-multiboot",
+    "type": "lib",
+    "provide": [
+        "chibi-entry"
+    ]
+}
