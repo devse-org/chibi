@@ -7,8 +7,8 @@
 
 #include "limine.h"
 
-HandoverPayload *handover = NULL;
-HandoverRecord free_record = {0};
+static uint8_t handover_buffer[16 * 1024] = {};
+static HandoverPayload *handover = (HandoverPayload *)handover_buffer;
 
 volatile struct limine_framebuffer_request framebuffer = {
     .id = LIMINE_FRAMEBUFFER_REQUEST,
@@ -18,7 +18,7 @@ volatile struct limine_memmap_request mmap = {
     .id = LIMINE_MEMMAP_REQUEST,
 };
 
-static void parse_framebuffer(HandoverPayload *handover) {
+static void parse_framebuffer(void) {
     if (framebuffer.response == NULL) {
         chibi_print("Framebuffer request failed\n");
         chibi_print("Halting\n");
@@ -39,11 +39,9 @@ static void parse_framebuffer(HandoverPayload *handover) {
         }};
 
     handover_append(handover, record);
-    free_record.start += sizeof(HandoverRecord);
-    free_record.size -= sizeof(HandoverRecord);
 }
 
-static void parse_mmap(HandoverPayload *handover) {
+static void parse_mmap(void) {
     if (mmap.response == NULL) {
         chibi_puts("Failed to get memory map\n");
         chibi_puts("Halting\n");
@@ -58,20 +56,7 @@ static void parse_mmap(HandoverPayload *handover) {
 
         switch (entry->type) {
         case LIMINE_MEMMAP_USABLE:
-            if (free_record.size == 0) {
-                free_record = (HandoverRecord){
-                    .tag = HANDOVER_FREE,
-                    .flags = 0,
-                    .start = entry->base,
-                    .size = entry->length,
-                };
-
-                handover = (HandoverPayload *)entry->base;
-                free_record.size -= sizeof(HandoverPayload);
-                free_record.start += sizeof(HandoverPayload);
-            } else {
-                tag_type = HANDOVER_FREE;
-            }
+            tag_type = HANDOVER_FREE;
             break;
 
         case LIMINE_MEMMAP_ACPI_NVS:
@@ -102,9 +87,6 @@ static void parse_mmap(HandoverPayload *handover) {
             };
 
             handover_append(handover, record);
-
-            free_record.start += sizeof(HandoverRecord);
-            free_record.size -= sizeof(HandoverRecord);
         }
     }
 }
@@ -112,13 +94,10 @@ static void parse_mmap(HandoverPayload *handover) {
 void _kstart(void) {
     chibi_print("Booting with Limine...\n");
 
-    parse_mmap(handover);
-    parse_framebuffer(handover);
+    handover->size = 16 * 1024;
 
-    free_record.start += sizeof(HandoverPayload);
-    free_record.size -= sizeof(HandoverPayload);
-
-    handover_append(handover, free_record);
+    parse_mmap();
+    parse_framebuffer();
 
     chibi_main(HANDOVER_COOLBOOT, handover);
 }
