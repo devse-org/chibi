@@ -6,7 +6,13 @@
 
 void chibi_main(uint64_t magic, [[maybe_unused]] HandoverPayload const *payload)
 {
-    chibi_print("Hello, Chibi !");
+    if (magic != 0)
+    {
+        chibi_puts("Invalid handover magic\n");
+        chibi_puts("Halting\n");
+        for (;;)
+            ;
+    }
 
     for (;;)
         ;
