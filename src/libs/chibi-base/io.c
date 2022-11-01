@@ -18,21 +18,20 @@ void chibi_cstrrev(char s[]) {
     }
 }
 
-void chibi_itoa(int n, char s[], int base) {
-    int i, sign;
+void chibi_itoa(int64_t value, char *str, uint64_t base, size_t buf_size) {
+    size_t len = 0;
 
-    if ((sign = n) < 0)
-        n = -n;
-    i = 0;
-    do {
-        s[i++] = n % base + '0';
-    } while ((n /= base) > 0);
+    if (value) {
+        do {
+            const char digit = (char)(value % base);
+            str[len++] = digit < 10 ? '0' + digit : 'a' + digit - 10;
+            value /= base;
+        } while (value && (len < buf_size));
 
-    if (sign < 0)
-        s[i++] = '-';
-
-    s[i] = '\0';
-    chibi_cstrrev(s);
+        chibi_cstrrev(str);
+    } else {
+        *str = '0';
+    }
 }
 
 void chibi_puts(const char *s) {
@@ -54,14 +53,14 @@ void chibi_print(const char *fmt, ...) {
                 chibi_puts(va_arg(va, const char *));
             } else if (*fmt == 'd') {
                 int number = va_arg(va, int);
-                char buffer[32];
-                chibi_itoa(number, buffer, 10);
+                char buffer[32] = {0};
+                chibi_itoa(number, buffer, 10, 32);
                 chibi_puts(buffer);
 
             } else if (*fmt == 'x') {
                 int number = va_arg(va, int);
-                char buffer[32];
-                chibi_itoa(number, buffer, 16);
+                char buffer[32] = {0};
+                chibi_itoa(number, buffer, 16, 32);
                 chibi_puts(buffer);
             } else if (*fmt == '%') {
                 chibi_putc('%');
