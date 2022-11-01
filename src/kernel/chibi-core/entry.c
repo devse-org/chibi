@@ -4,9 +4,10 @@
 
 #include "arch.h"
 
-void chibi_main(uint64_t magic, [[maybe_unused]] HandoverPayload const *payload) {
-    chibi_print("Hello, Chibi !\n");
-    chibi_print("Magic: %x\n", magic);
+void chibi_main(uint64_t magic, [[maybe_unused]] HandoverPayload const *payload)
+{
+    chibi_print("Hello, Chibi !");
+
     for (;;)
         ;
 }

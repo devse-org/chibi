@@ -18,8 +18,10 @@ volatile struct limine_memmap_request mmap = {
     .id = LIMINE_MEMMAP_REQUEST,
 };
 
-static void parse_framebuffer(void) {
-    if (framebuffer.response == NULL) {
+static void parse_framebuffer(void)
+{
+    if (framebuffer.response == NULL)
+    {
         chibi_print("Framebuffer request failed\n");
         chibi_print("Halting\n");
 
@@ -41,8 +43,10 @@ static void parse_framebuffer(void) {
     handover_append(handover, record);
 }
 
-static void parse_mmap(void) {
-    if (mmap.response == NULL) {
+static void parse_mmap(void)
+{
+    if (mmap.response == NULL)
+    {
         chibi_puts("Failed to get memory map\n");
         chibi_puts("Halting\n");
 
@@ -50,11 +54,13 @@ static void parse_mmap(void) {
             ;
     }
 
-    for (size_t i = 0; i < mmap.response->entry_count; i++) {
+    for (size_t i = 0; i < mmap.response->entry_count; i++)
+    {
         struct limine_memmap_entry *entry = mmap.response->entries[i];
         int tag_type = 0;
 
-        switch (entry->type) {
+        switch (entry->type)
+        {
         case LIMINE_MEMMAP_USABLE:
             tag_type = HANDOVER_FREE;
             break;
@@ -78,7 +84,8 @@ static void parse_mmap(void) {
             break;
         }
 
-        if (tag_type) {
+        if (tag_type)
+        {
             HandoverRecord record = {
                 .tag = tag_type,
                 .flags = 0,
@@ -91,7 +98,8 @@ static void parse_mmap(void) {
     }
 }
 
-void _kstart(void) {
+void _kstart(void)
+{
     chibi_print("Booting with Limine...\n");
 
     handover->size = 16 * 1024;

@@ -6,8 +6,10 @@
 
 static bool com_initialized = false;
 
-void chibi_putc(char c) {
-    if (!com_initialized) {
+void chibi_putc(char c)
+{
+    if (!com_initialized)
+    {
         const uint8_t div_low = COM_BAUD_DIV & 0xff;
         const uint8_t div_high = COM_BAUD_DIV >> 8;
 
