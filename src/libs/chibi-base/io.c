@@ -51,11 +51,8 @@ void chibi_puts(const char *s)
     }
 }
 
-void chibi_print(const char *fmt, ...)
+void chibi_printva(const char *fmt, va_list va)
 {
-    va_list va;
-    va_start(va, fmt);
-
     while (*fmt)
     {
         if (*fmt == '%')
@@ -73,11 +70,12 @@ void chibi_print(const char *fmt, ...)
                 chibi_itoa(number, buffer, 10, 32);
                 chibi_puts(buffer);
             }
-            else if (*fmt == 'x')
+            else if (*fmt == 'x' || *fmt == 'p')
             {
                 int number = va_arg(va, int);
                 char buffer[32] = {0};
                 chibi_itoa(number, buffer, 16, 32);
+                chibi_puts("0x");
                 chibi_puts(buffer);
             }
             else if (*fmt == '%')
@@ -92,6 +90,21 @@ void chibi_print(const char *fmt, ...)
 
         fmt++;
     }
+}
 
+void chibi_print(const char *fmt, ...)
+{
+    va_list va;
+    va_start(va, fmt);
+    chibi_printva(fmt, va);
     va_end(va);
+}
+
+void chibi_println(const char *fmt, ...)
+{
+    va_list va;
+    va_start(va, fmt);
+    chibi_printva(fmt, va);
+    va_end(va);
+    chibi_puts("\n");
 }

@@ -1,17 +1,16 @@
 #include <chibi-base/io.h>
+#include <chibi-core/core.h>
 #include <handover/handover.h>
-#include <stdint.h>
 
 #include "arch.h"
 
 void chibi_main(uint64_t magic, [[maybe_unused]] HandoverPayload const *payload)
 {
-    if (magic != 0)
+    if (magic != HANDOVER_MAGIC)
     {
-        chibi_puts("Invalid handover magic\n");
-        chibi_puts("Halting\n");
-        chibi_stop();
+        chibi_panic("invalid handover magic");
     }
 
+    chibi_println("Hello, chibi!");
     chibi_stop();
 }

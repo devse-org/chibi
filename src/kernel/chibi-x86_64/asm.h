@@ -1,8 +1,8 @@
 #pragma once
 
-#include <stdint.h>
+#include <chibi-base/std.h>
 
-static inline uint8_t asm_in8(uint16_t port)
+inline uint8_t asm_in8(uint16_t port)
 {
     uint8_t data;
     asm volatile("inb %1, %0"
@@ -11,9 +11,24 @@ static inline uint8_t asm_in8(uint16_t port)
     return data;
 }
 
-static inline void asm_out8(uint16_t port, uint8_t data)
+inline void asm_out8(uint16_t port, uint8_t data)
 {
     asm volatile("outb %0, %1"
                  :
                  : "a"(data), "d"(port));
+}
+
+inline void asm_hlt(void)
+{
+    asm volatile("hlt");
+}
+
+inline void asm_cli(void)
+{
+    asm volatile("cli");
+}
+
+inline void asm_sti(void)
+{
+    asm volatile("sti");
 }

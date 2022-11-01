@@ -2,8 +2,8 @@
 
 #include <chibi-base/io.h>
 #include <chibi-core/arch.h>
+#include <chibi-core/core.h>
 #include <handover/handover.h>
-#include <stddef.h>
 
 #include "limine.h"
 
@@ -22,9 +22,7 @@ static void parse_framebuffer(void)
 {
     if (framebuffer.response == NULL)
     {
-        chibi_print("Framebuffer request failed\n");
-        chibi_print("Halting\n");
-        chibi_stop();
+        chibi_panic("framebuffer request failed");
     }
 
     HandoverRecord record = {
@@ -45,9 +43,7 @@ static void parse_mmap(void)
 {
     if (mmap.response == NULL)
     {
-        chibi_puts("Failed to get memory map\n");
-        chibi_puts("Halting\n");
-        chibi_stop();
+        chibi_panic("failed to get memory map");
     }
 
     for (size_t i = 0; i < mmap.response->entry_count; i++)

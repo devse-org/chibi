@@ -1,16 +1,27 @@
 #include <chibi-core/arch.h>
 
-void hlt(void)
+#include "asm.h"
+
+void chibi_disable_interrupts(void)
 {
-    asm volatile("hlt");
+    asm_cli();
 }
 
-void cli(void)
+void chibi_enable_interrupts(void)
 {
-    asm volatile("cli");
+    asm_sti();
 }
 
-void sti(void)
+void chibi_halt(void)
 {
-    asm volatile("sti");
+    asm_hlt();
+}
+
+void chibi_stop(void)
+{
+    while (1)
+    {
+        asm_cli();
+        asm_hlt();
+    }
 }

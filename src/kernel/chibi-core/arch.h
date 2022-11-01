@@ -2,17 +2,10 @@
 
 #include <handover/handover.h>
 
-void chibi_main(uint64_t magic, HandoverPayload const *payload);
+void chibi_disable_interrupts(void);
 
-void cli(void);
-void sti(void);
-void hlt(void);
+void chibi_enable_interrupts(void);
 
-static inline void chibi_stop(void)
-{
-    while (true)
-    {
-        cli();
-        hlt();
-    }
-}
+void chibi_halt(void);
+
+void chibi_stop(void);
