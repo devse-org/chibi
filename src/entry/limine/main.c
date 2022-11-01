@@ -24,9 +24,7 @@ static void parse_framebuffer(void)
     {
         chibi_print("Framebuffer request failed\n");
         chibi_print("Halting\n");
-
-        for (;;)
-            ;
+        chibi_stop();
     }
 
     HandoverRecord record = {
@@ -49,9 +47,7 @@ static void parse_mmap(void)
     {
         chibi_puts("Failed to get memory map\n");
         chibi_puts("Halting\n");
-
-        for (;;)
-            ;
+        chibi_stop();
     }
 
     for (size_t i = 0; i < mmap.response->entry_count; i++)
