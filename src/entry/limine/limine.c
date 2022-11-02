@@ -1,11 +1,13 @@
 #define HANDOVER_INCLUDE_UTILITES
 
+#include "limine.h"
 #include <chibi-base/io.h>
+#include <chibi-base/macro.h>
 #include <chibi-core/arch.h>
 #include <chibi-core/core.h>
 #include <handover/handover.h>
 
-#include "limine.h"
+void _kstart(void) alias("limine_entry");
 
 static uint8_t handover_buffer[16 * 1024] = {};
 static HandoverPayload *handover = (HandoverPayload *)handover_buffer;
@@ -90,14 +92,13 @@ static void parse_mmap(void)
     }
 }
 
-void _kstart(void)
+noreturn void limine_entry(void)
 {
-    chibi_print("Booting with Limine...\n");
-
     handover->size = 16 * 1024;
 
     parse_mmap();
     parse_framebuffer();
 
+    chibi_success();
     chibi_main(HANDOVER_COOLBOOT, handover);
 }
